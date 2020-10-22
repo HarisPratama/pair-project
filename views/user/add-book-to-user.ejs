@@ -1,0 +1,64 @@
+<%- include('../partial/navBar', { title: "User List" }); %>
+
+<div class="container">
+
+
+    <h1><%= user.username %></h1>
+
+    <form action="/user/addBook/<%= user.id %>" method="post">
+    
+        <div class="form-group">
+            <label for="exampleFormControlSelect2">Book List</label>
+            <select multiple class="form-control" id="exampleFormControlSelect2" name="BookId">
+              <% book.forEach(element => { %>
+                <option value="<%= element.id %>"><%= element.title %></option>  
+              <% }); %>
+            </select>
+          </div><br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </form> <br>
+
+    <h3>List User Book</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Released Date</th>
+          <th>Author</th>
+          <th>Price</th>
+          <th>Booking Date</th>
+          <th>Return Date</th>
+          <th>Flag Return</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% user.Books.forEach(element => { %>
+          <tr>
+            <td><%= element.title %></td>
+            <td><%= toDateFormat(element.released_date) %></td>
+            <td><%= element.author %></td>
+            <td><%= element.price %></td>
+            <td><%= toDateFormat(element.UserBook.booking_date) %></td>
+            <td><%= toDateFormat(element.UserBook.return_date) %></td>
+            <% if (element.UserBook.flag_return == false) { %>
+              <td><a href="/user/addBook/<%= user.id %>/flag_return/<%= element.id %>"><%= element.UserBook.flag_return %></a></td>
+
+            <% } else { %>
+              <td><%= element.UserBook.flag_return %></td>
+            <% }%>
+          </tr>     
+        <% }); %>
+      </tbody>
+    </table>
+
+ 
+    <% let data = 0 %>
+    <% for(let i = 0; i < user.Books.length; i++ ) { %>
+        <% data += user.Books[i].price %>
+    <% } %>
+     <center>Subtotal: Rp <%= data %></center>
+
+     <a href="/user/send-email/<%= user.id %>">Send email</a>
+</div>
+<br><br>
+<%- include('../partial/footer'); %>

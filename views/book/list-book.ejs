@@ -1,0 +1,40 @@
+<%- include('../partial/navBar', { title: "Book List" }); %>
+    
+<div class="container">
+
+    <h1>List Book</h1>
+
+    <a href="/book/add">AddBook</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cover Book</th>
+                <th>Title</th>
+                <th>Released Date</th>
+                <th>Stock</th>
+                <th>Author</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.forEach(el => { %>
+                <tr>
+                    <td><%= el.id %></td>
+                    <td><img src="uploads/<%= el.coverImage %> " alt="" style="height: 50px;"></td>
+                    <td><%= el.title %></td>
+                    <td><%= el.getFormatDate() %></td>
+                    <td><%= el.stock %></td>
+                    <td><%= el.author %></td>
+                    <td><%= el.price %></td>
+                    <td>
+                        <a href="/book/edit/<%= el.id %>">Edit</a>
+                        || 
+                        <a href="/book/delete/<%= el.id %>" onclick="return confirm(`Are you sure to delete ?`)">Delete</a></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</div>
+    <%- include('../partial/footer'); %>
